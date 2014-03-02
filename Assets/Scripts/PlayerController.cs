@@ -85,6 +85,35 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info)
+    {
+        var sync_pos = new Vector3();
+        var sync_rot = new Quaternion();
+        var sync_hp = 0.0f;
+
+        if (stream.isReading)
+        {
+            stream.Serialize(ref sync_pos);
+            stream.Serialize(ref sync_rot);
+            stream.Serialize(ref sync_hp);
+
+            transform.position = sync_pos;
+            transform.rotation = sync_rot;
+            m_CurrentHP = sync_hp;
+        }
+        else
+        {
+            sync_pos = transform.position;
+            sync_rot = transform.rotation;
+            sync_hp = m_CurrentHP;
+
+            stream.Serialize(ref sync_pos);
+            stream.Serialize(ref sync_rot);
+            stream.Serialize(ref sync_hp);
+        }
+    }
+
+    [RPC]
     void Hit()
     {
         m_CurrentHP -= m_Bullet.Damage;
