@@ -7,6 +7,7 @@ public class Bullet : MonoBehaviour
     public float CoolDownTime = 0.5f;
     public float KeepAliveTime = 5.0f;
     public float Damage = 25.0f;
+    public GameObject Explosion;
 
     private Quaternion m_RotCompensation;
 
@@ -31,10 +32,21 @@ public class Bullet : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player") && networkView.isMine)
+        if (other.CompareTag("Player"))
         {
-            other.networkView.RPC("Hit", other.networkView.owner);
-            Network.Destroy(gameObject);
+            var victim_pos = other.transform.position;
+            var direction = transform.position - victim_pos;
+
+            victim_pos.z = -4.0f;
+            direction.z = 0.0f;
+
+            Network.Instantiate(Explosion, victim_pos, Quaternion.FromToRotation(new Vector3(0.0f, 1.0f), direction), 0);
+
+            if (networkView.isMine)
+            {
+                other.networkView.RPC("Hit", other.networkView.owner);
+                Network.Destroy(gameObject);
+            }
         }
     }
 

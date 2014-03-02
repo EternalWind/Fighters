@@ -122,7 +122,7 @@ public class PlayerController : MonoBehaviour
         {
             var exp_pos = new Vector3(transform.position.x, transform.position.y, -3.0f);
 
-            Instantiate(Explosion, exp_pos, Quaternion.identity);
+            Network.Instantiate(Explosion, exp_pos, Quaternion.identity, 0);
             Network.Destroy(gameObject);
         }
     }

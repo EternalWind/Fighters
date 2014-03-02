@@ -70,6 +70,8 @@ MonoBehaviour:
   Speed: 6
   CoolDownTime: .5
   KeepAliveTime: 5
+  Damage: 25
+  Explosion: {fileID: 100000, guid: 845b9a588a779874cbcee2d2f1d0912c, type: 2}
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1
