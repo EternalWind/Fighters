@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     public float Speed = 4.0f;
     public GameObject Bullet;
+    public GameObject Explosion;
 
     private Sprite m_Sprite;
     private Sprite m_BulletSprite;
@@ -65,5 +66,6 @@ public class PlayerController : MonoBehaviour
     void Hit()
     {
         Network.Destroy(gameObject);
+        Instantiate(Explosion, transform.position, Quaternion.identity);
     }
 }
