@@ -33,7 +33,7 @@ public class Bullet : MonoBehaviour
     {
         if (other.CompareTag("Player") && networkView.isMine)
         {
-            other.SendMessage("Hit");
+            other.networkView.RPC("Hit", other.networkView.owner);
             Network.Destroy(gameObject);
         }
     }
