@@ -6,6 +6,7 @@ public class Bullet : MonoBehaviour
     public float Speed = 6.0f;
     public float CoolDownTime = 0.5f;
     public float KeepAliveTime = 5.0f;
+    public float Damage = 25.0f;
 
     private Quaternion m_RotCompensation;
 

@@ -83,9 +83,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adce2983f99a5ab4c8429194f8712d45, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HP: 100
   Speed: 4
   Bullet: {fileID: 100000, guid: 480b4a3c33dda0b468c5f05d82f27c49, type: 2}
   Explosion: {fileID: 100000, guid: d8598d8dff4acbf4e83ed677a442aa25, type: 2}
+  HPIndicator: {fileID: 2800000, guid: 841e2fd373c14a74fa697915192ef8a1, type: 3}
 --- !u!148 &14800000
 NetworkView:
   m_ObjectHideFlags: 1

@@ -3,15 +3,19 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
+    public float HP = 100.0f;
     public float Speed = 4.0f;
     public GameObject Bullet;
     public GameObject Explosion;
+    public Texture HPIndicator;
 
     private Sprite m_Sprite;
     private Sprite m_BulletSprite;
+    private Bullet m_Bullet;
     private float m_RemainCoolDownTime = 0.0f;
     private float m_CoolDownTime;
     private Animator m_Animator;
+    private float m_CurrentHP;
 
     // Use this for initialization
     void Start()
@@ -20,6 +24,24 @@ public class PlayerController : MonoBehaviour
         m_BulletSprite = Bullet.GetComponent<SpriteRenderer>().sprite;
         m_CoolDownTime = Bullet.GetComponent<Bullet>().CoolDownTime;
         m_Animator = GetComponent<Animator>();
+        m_Bullet = Bullet.GetComponent<Bullet>();
+        m_CurrentHP = HP;
+    }
+
+    void OnGUI()
+    {
+        var length = 50.0f;
+        var height = 5.0f;
+        var pos = transform.position;
+        pos.y += m_Sprite.bounds.extents.y;
+
+        pos = Camera.main.WorldToScreenPoint(pos);
+        pos.y = Screen.height - pos.y;
+
+        pos.x -= length / 2.0f;
+        pos.y -= height + 1.0f;
+
+        GUI.DrawTexture(new Rect(pos.x, pos.y, length * m_CurrentHP / HP, height), HPIndicator, ScaleMode.StretchToFill);
     }
 
     // Update is called once per frame
@@ -65,9 +87,14 @@ public class PlayerController : MonoBehaviour
 
     void Hit()
     {
-        var exp_pos = new Vector3(transform.position.x, transform.position.y, -3.0f);
+        m_CurrentHP -= m_Bullet.Damage;
 
-        Instantiate(Explosion, exp_pos, Quaternion.identity);
-        Network.Destroy(gameObject);
+        if (m_CurrentHP <= 0.0f)
+        {
+            var exp_pos = new Vector3(transform.position.x, transform.position.y, -3.0f);
+
+            Instantiate(Explosion, exp_pos, Quaternion.identity);
+            Network.Destroy(gameObject);
+        }
     }
 }
