@@ -65,7 +65,9 @@ public class PlayerController : MonoBehaviour
 
     void Hit()
     {
+        var exp_pos = new Vector3(transform.position.x, transform.position.y, -3.0f);
+
+        Instantiate(Explosion, exp_pos, Quaternion.identity);
         Network.Destroy(gameObject);
-        Instantiate(Explosion, transform.position, Quaternion.identity);
     }
 }
